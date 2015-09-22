@@ -13,7 +13,7 @@ using System.ComponentModel; // use for ODS access
 namespace eRestaurantSystem.BLL
 {
     [DataObject]
-    class AdminController
+    public class AdminController
     {
         [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<SpecialEvent> SpecialEvent_List()
