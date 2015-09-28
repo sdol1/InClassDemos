@@ -11,4 +11,8 @@ public partial class SamplePages_SpecialEventsAdmin : System.Web.UI.Page
     {
 
     }
+    protected void FetchReservations_Click(object sender, EventArgs e)
+    {
+
+    }
 }
