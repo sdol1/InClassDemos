@@ -32,6 +32,7 @@ namespace eRestaurantSystem.Entities
         //      this entity refering to the Tables table
 
         public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<Bill> Bills { get; set; }
 
         public Table()
         {
