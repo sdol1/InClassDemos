@@ -26,8 +26,8 @@ namespace eRestaurantSystem.DAL
         //setup the DBSet Mappings
         //One Dbset for each entity I create.
         public DbSet<SpecialEvent> SpecialEvents { get; set; }
-        public DbSet<Reservation> Reservation { get; set; }
-        public DbSet<Table> Table { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Table> Tables { get; set; }
 
         //added the rest of the entities
         public DbSet<Bill> Bills { get; set; }
