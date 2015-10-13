@@ -17,6 +17,7 @@ namespace eRestaurantSystem.BLL
     [DataObject]
     public class AdminController
     {
+        #region Query Samples
         [DataObjectMethod(DataObjectMethodType.Select,false)]
         public List<SpecialEvent> SpecialEvent_List()
         {
@@ -51,7 +52,7 @@ namespace eRestaurantSystem.BLL
                 //return context.SpecialEvents.OrderBy(x => x.Description).ToList();
 
                 //query syntax
-                var results = from item in context.Reservation
+                var results = from item in context.Reservations
                               where item.EventCode.Equals(eventcode)
                               orderby item.CustomerName, item.ReservationDate
                               select item;
@@ -116,5 +117,56 @@ namespace eRestaurantSystem.BLL
                 return results.ToList();
             }
         }
-    }
-}
+        #endregion
+
+        #region CRUD Insert, Update, Delete
+        [DataObjectMethod(DataObjectMethodType.Insert,false)]
+        public void SpecialEvents_Add(SpecialEvent item)
+        {
+            //input into this method is at the instance level
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //create a pointer variable for the instance type 
+                //set this pointer to null
+                SpecialEvent added = null;
+
+                //set up the add request for the dbContext
+                added = context.SpecialEvents.Add(item);
+                
+                //saving the chnages will cause the .Add to execute
+                //commits the add to the database
+                //evaluates the annotations (validation) on your entity
+                context.SaveChanges();
+            }
+        }
+        
+        [DataObjectMethod(DataObjectMethodType.Update,false)]
+        public void SpecialEvents_Update(SpecialEvent item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                context.Entry<SpecialEvent>(context.SpecialEvents.Attach(item)).State =
+                    System.Data.Entity.EntityState.Modified;
+
+                context.SaveChanges();
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Delete,false)]
+        public void SpecialEvent_Delete(SpecialEvent item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //look  the item instance on the databse to detemine if the instance exists
+                SpecialEvent existing = context.SpecialEvents.Find(item);
+
+                //set up the delete request command
+                context.SpecialEvents.Remove(existing);
+                //commit the action to happen
+                context.SaveChanges();
+            }
+        }
+        #endregion
+
+    }//oef class
+}//eof namespace
