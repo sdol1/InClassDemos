@@ -158,7 +158,8 @@ namespace eRestaurantSystem.BLL
             using (eRestaurantContext context = new eRestaurantContext())
             {
                 //look  the item instance on the databse to detemine if the instance exists
-                SpecialEvent existing = context.SpecialEvents.Find(item);
+                //on the delete ensure your reference the Primary Key
+                SpecialEvent existing = context.SpecialEvents.Find(item.EventCode);
 
                 //set up the delete request command
                 context.SpecialEvents.Remove(existing);
