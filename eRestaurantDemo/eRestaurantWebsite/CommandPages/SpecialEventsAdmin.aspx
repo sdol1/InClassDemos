@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="SpecialEventsAdmin.aspx.cs" Inherits="CommandPages_SpecialEventsAdmin" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" 
+    CodeFile="SpecialEventsAdmin.aspx.cs" Inherits="CommandPages_SpecialEventsAdmin" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <h1>Special Events CRUD using ListView</h1>
