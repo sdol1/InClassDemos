@@ -167,6 +167,55 @@ namespace eRestaurantSystem.BLL
                 context.SaveChanges();
             }
         }
+
+        //Waiter CRUD
+        [DataObjectMethod(DataObjectMethodType.Insert, false)]
+        public void Waiters_Add(Waiter item)
+        {
+            //input into this method is at the instance level
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //create a pointer variable for the instance type 
+                //set this pointer to null
+                Waiter added = null;
+
+                //set up the add request for the dbContext
+                added = context.Waiters.Add(item);
+
+                //saving the chnages will cause the .Add to execute
+                //commits the add to the database
+                //evaluates the annotations (validation) on your entity
+                context.SaveChanges();
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Update, false)]
+        public void Waiters_Update(Waiter item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                context.Entry<Waiter>(context.Waiters.Attach(item)).State =
+                    System.Data.Entity.EntityState.Modified;
+
+                context.SaveChanges();
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Delete, false)]
+        public void Waiters_Delete(Waiter item)
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                //look  the item instance on the databse to detemine if the instance exists
+                //on the delete ensure your reference the Primary Key
+                Waiter existing = context.Waiters.Find(item.WaiterID);
+
+                //set up the delete request command
+                context.Waiters.Remove(existing);
+                //commit the action to happen
+                context.SaveChanges();
+            }
+        }
         #endregion
 
     }//oef class
