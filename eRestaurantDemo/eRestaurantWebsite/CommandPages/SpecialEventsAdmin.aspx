@@ -1,9 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" 
     CodeFile="SpecialEventsAdmin.aspx.cs" Inherits="CommandPages_SpecialEventsAdmin" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
+
+    <br /><br /><br /><br /><br />
     <h1>Special Events CRUD using ListView</h1>
     <p>Remember DATAKEYNAMES = EventCode</p>
+    <uc1:MessageUserControl runat="server" ID="MessageUserControl1" />
+
+    <br />
     <asp:ListView ID="SpecialEventsDisplay" runat="server" 
         DataSourceID="ODSSpecialEvents" 
         InsertItemPosition="FirstItem" DataKeyNames="EventCode">
@@ -136,6 +144,10 @@
         UpdateMethod="SpecialEvents_Update"
         OldValuesParameterFormatString="original_{0}" 
         TypeName="eRestaurantSystem.BLL.AdminController" 
-        ></asp:ObjectDataSource>
+        OnDeleted="CheckForException" 
+        OnInserted="CheckForException" 
+        OnSelected="CheckForException" 
+        OnUpdated="CheckForException">
+    </asp:ObjectDataSource>
 </asp:Content>
 

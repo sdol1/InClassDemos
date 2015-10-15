@@ -10,7 +10,7 @@
 void Main()
 {
 	//entity data set
-	Waiter.Dump();
+	//Waiter.Dump();
 	//anonymous type
 	//from food in Items
 	//where food.MenuCategory.Description.Equals("Entree") &&
@@ -37,19 +37,19 @@ void Main()
 	//			//Profit = food.CurrentPrice - food.CurrentCost
 	//		}
 	
-	var results = from food in Items
-		where food.MenuCategory.Description.Equals("Entree") &&
-				food.Active
-		orderby food.CurrentPrice descending
-		select new FoodMargin()
-				{
-					Description = food.Description,
-					Price = food.CurrentPrice,
-					Cost = food.CurrentCost,
-					Profit = food.CurrentPrice - food.CurrentCost
-				};
-	results.Dump();
-	
+//	var results = from food in Items
+//		where food.MenuCategory.Description.Equals("Entree") &&
+//				food.Active
+//		orderby food.CurrentPrice descending
+//		select new FoodMargin()
+//				{
+//					Description = food.Description,
+//					Price = food.CurrentPrice,
+//					Cost = food.CurrentCost,
+//					Profit = food.CurrentPrice - food.CurrentCost
+//				};
+//	results.Dump();
+//	
 	//DTO data transfer objects orders = many items
 	var results2 = from orders in Bills
 		where orders.PaidStatus &&
@@ -83,4 +83,3 @@ public class BillOrders
 	public string Waiter{get;set;}
 	public IEnumerable Orders{get;set;}
 }
-
