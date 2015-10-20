@@ -4,8 +4,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <br /> <br /> <br /><br /> <br /><br /><br />
+    <h1>Menu Category Report</h1>
     <asp:ObjectDataSource ID="ODSReport" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="GetReportCategoryMenuItems" TypeName="eRestaurantSystem.BLL.AdminController"></asp:ObjectDataSource>
-<rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt">
+<rsweb:ReportViewer ID="ReportViewer1" runat="server" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Height="750px" Width="100%">
     <LocalReport ReportPath="Reports\CategoryMenuItems.rdlc">
         <DataSources>
             <rsweb:ReportDataSource DataSourceId="ODSReport" Name="CategoryMenuItemDS" />
