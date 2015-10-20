@@ -116,6 +116,52 @@ namespace eRestaurantSystem.BLL
                               };
                 return results.ToList();
             }
+
+
+        }
+
+        //Waiter List
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Waiter> Waiters_List()
+        {
+            using (var context = new eRestaurantContext())
+            {
+                //retreieve the data from the SpecialEvents Table sql
+                //to do so we will use te DbSet in eResturantContext
+                //      call SpecialEvents (done by mapping)
+
+                //method syntax
+                //return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+
+                //query syntax
+                var results = from waiter in context.Waiters
+                              orderby waiter.LastName + " " + waiter.FirstName
+                              select waiter;
+                return results.ToList();
+
+            }
+        }
+
+        //Waiter Search
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public Waiter GetWaiterByID(int waiterid)
+        {
+            using (var context = new eRestaurantContext())
+            {
+                //retreieve the data from the SpecialEvents Table sql
+                //to do so we will use te DbSet in eResturantContext
+                //      call SpecialEvents (done by mapping)
+
+                //method syntax
+                //return context.SpecialEvents.OrderBy(x => x.Description).ToList();
+
+                //query syntax
+                var result = from waiter in context.Waiters
+                              where waiter.WaiterID == waiterid
+                              select waiter;
+                return result.FirstOrDefault();
+
+            }
         }
         #endregion
 
@@ -168,9 +214,9 @@ namespace eRestaurantSystem.BLL
             }
         }
 
-        //Waiter CRUD
+        //Waiter CRUD SHOULD BE WAITER_ADD
         [DataObjectMethod(DataObjectMethodType.Insert, false)]
-        public void Waiters_Add(Waiter item)
+        public int Waiters_Add(Waiter item)
         {
             //input into this method is at the instance level
             using (eRestaurantContext context = new eRestaurantContext())
@@ -186,9 +232,13 @@ namespace eRestaurantSystem.BLL
                 //commits the add to the database
                 //evaluates the annotations (validation) on your entity
                 context.SaveChanges();
+                // added contains the data of the newly added waiter
+                // including the pkey value.
+                return added.WaiterID;
             }
         }
 
+        // SHOULD BE WAITER_UPDATE
         [DataObjectMethod(DataObjectMethodType.Update, false)]
         public void Waiters_Update(Waiter item)
         {
@@ -201,6 +251,7 @@ namespace eRestaurantSystem.BLL
             }
         }
 
+        // SHOULD BE WAITER_DELETE
         [DataObjectMethod(DataObjectMethodType.Delete, false)]
         public void Waiters_Delete(Waiter item)
         {
