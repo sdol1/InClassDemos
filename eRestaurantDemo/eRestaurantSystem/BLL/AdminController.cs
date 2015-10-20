@@ -95,14 +95,14 @@ namespace eRestaurantSystem.BLL
         }
 
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<CategoryMenuItems> CategoryMenuItems_List()
+        public List<Entities.DTOs.CategoryMenuItems> CategoryMenuItems_List()
         {
             using (var context = new eRestaurantContext())
             {
                 //query status
                 var results = from category in context.MenuCategories
                               orderby category.Description
-                              select new CategoryMenuItems()
+                              select new Entities.DTOs.CategoryMenuItems()
                               {
                                   Description = category.Description,
                                   MenuItems = from row in category.MenuItems //collection of navigated rows of ICollection in SpecialEvent entity
@@ -165,7 +165,7 @@ namespace eRestaurantSystem.BLL
         }
         #endregion
 
-        #region CRUD Insert, Update, Delete
+        #region CRUD Insert, Update, Delete for CQRS
         [DataObjectMethod(DataObjectMethodType.Insert,false)]
         public void SpecialEvents_Add(SpecialEvent item)
         {
@@ -265,6 +265,28 @@ namespace eRestaurantSystem.BLL
                 context.Waiters.Remove(existing);
                 //commit the action to happen
                 context.SaveChanges();
+            }
+        }
+        #endregion
+
+        #region POCO for Report1
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Entities.POCOs.CategoryMenuItems> GetReportCategoryMenuItems()
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                var results = from cat in context.Items
+                              orderby cat.Category.Description, cat.Description
+                              select new Entities.POCOs.CategoryMenuItems
+                              {
+                                  CategoryDescription = cat.Category.Description,
+                                  ItemDescription = cat.Description,
+                                  Price = cat.CurrentPrice,
+                                  Calories = cat.Calories,
+                                  Comment = cat.Comment
+                              };
+
+                return results.ToList(); // this was .Dump() in Linqpad
             }
         }
         #endregion

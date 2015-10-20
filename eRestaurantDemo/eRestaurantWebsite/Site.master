@@ -57,6 +57,7 @@
                         <li><a runat="server" href="~/SamplePages/CategoryMenuItems">Menu Items</a></li>
                         <li><a runat="server" href="~/CommandPages/SpecialEventsAdmin">ListView CRUD</a></li>
                         <li><a runat="server" href="~/CommandPages/WaiterAdmin">Waiter CRUD</a></li>
+                        <li><a runat="server" href="~/Reports/MenuCategoryItemReport">Report</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                     </ul>
