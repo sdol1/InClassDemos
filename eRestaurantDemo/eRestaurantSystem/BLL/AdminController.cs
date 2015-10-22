@@ -269,7 +269,7 @@ namespace eRestaurantSystem.BLL
         }
         #endregion
 
-        #region POCO for Report1
+        #region POCO for Reports
         [DataObjectMethod(DataObjectMethodType.Select, false)]
         public List<Entities.POCOs.CategoryMenuItems> GetReportCategoryMenuItems()
         {
@@ -287,6 +287,28 @@ namespace eRestaurantSystem.BLL
                               };
 
                 return results.ToList(); // this was .Dump() in Linqpad
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<WaiterBilling> GetWaiterBillingReport()
+        {
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                var results = from aBillRow in context.Bills
+                                where aBillRow.BillDate.Month == 5
+                                orderby aBillRow.BillDate, aBillRow.Waiter.LastName, aBillRow.Waiter.FirstName
+                                select new WaiterBilling // <--- name of the entity from the POCO
+                                {
+	                                BillDate = aBillRow.BillDate,
+	                                Name = aBillRow.Waiter.LastName + " " + aBillRow.Waiter.FirstName,
+	                                BillID = aBillRow.BillID,
+	                                BillTotal = aBillRow.Items.Sum(bitem => bitem.Quantity * bitem.SalePrice),
+	                                PartySize = aBillRow.NumberInParty,
+	                                Contact = aBillRow.Reservation.CustomerName
+                                }; // <----- semi colon
+
+                return results.ToList();
             }
         }
         #endregion
