@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="ListView.aspx.cs" Inherits="SamplePages_ListView" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
+    <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> 
     <h1>Listview Query Display</h1>
     <table align="center" style="width: 70%">
         <tr>

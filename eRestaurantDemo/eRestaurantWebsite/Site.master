@@ -53,7 +53,7 @@
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/SamplePages/SpecialEventsAdmin">SpecialEvents</a></li>
                         <li><a runat="server" href="~/SamplePages/ListView">ListView Display</a></li>
-                        <li><a runat="server" href="~/SamplePages/ReservationsByDate">Reservations</a></li>
+                        <li><a runat="server" href="~/SamplePages/ReservationByDate">Reservations</a></li>
                         <li><a runat="server" href="~/SamplePages/CategoryMenuItems">Menu Items</a></li>
                         <li><a runat="server" href="~/CommandPages/SpecialEventsAdmin">ListView CRUD</a></li>
                         <li><a runat="server" href="~/CommandPages/WaiterAdmin">Waiter CRUD</a></li>

@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="ReservationByDate.aspx.cs" Inherits="SamplePages_ReservationFormsByDate" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">\
+    <br /> <br /> <br /> <br /> <br /> <br /> <br />
     <h1>Reservations By Date (Repeater)</h1>
         <table align="center" style="width: 70%">
         <tr>
