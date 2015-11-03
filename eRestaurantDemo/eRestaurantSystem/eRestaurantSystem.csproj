@@ -54,11 +54,13 @@
     <Compile Include="Entities\BillItem.cs" />
     <Compile Include="Entities\DTOs\CategoryMenuItems.cs" />
     <Compile Include="Entities\DTOs\ReservationByDate.cs" />
+    <Compile Include="Entities\DTOs\ReservationCollection.cs" />
     <Compile Include="Entities\Item.cs" />
     <Compile Include="Entities\MenuCategory.cs" />
     <Compile Include="Entities\POCOs\CategoryMenuItems.cs" />
     <Compile Include="Entities\POCOs\MenuItem.cs" />
     <Compile Include="Entities\POCOs\ReservationDetail.cs" />
+    <Compile Include="Entities\POCOs\ReservationSummary.cs" />
     <Compile Include="Entities\POCOs\WaiterBilling.cs" />
     <Compile Include="Entities\Reservation.cs" />
     <Compile Include="Entities\SpecialEvent.cs" />
