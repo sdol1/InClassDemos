@@ -48,7 +48,7 @@
             <td align="center">
                 <asp:DetailsView ID="ReservationListDV" runat="server" Height="50px" Width="125px" AllowPaging="True" DataSourceID="ODSReservations">
                     <EmptyDataTemplate>
-                        No Data to Display
+                        Select a Position
                     </EmptyDataTemplate>
                 </asp:DetailsView>
             </td>
@@ -59,7 +59,7 @@
             <td>&nbsp;</td>
         </tr>
     </table>
-    <asp:ObjectDataSource ID="ODSSpecialEvents" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SpecialEvent_List" TypeName="eRestaurantSystem.BLL.AdminController"></asp:ObjectDataSource>
+    <asp:ObjectDataSource ID="ODSSpecialEvents" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="SpecialEvent_List" TypeName="eRestaurantSystem.BLL.AdminController" OnSelecting="ODSSpecialEvents_Selecting"></asp:ObjectDataSource>
     <asp:ObjectDataSource ID="ODSReservations" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="GetReservationsByEventCode" TypeName="eRestaurantSystem.BLL.AdminController">
         <SelectParameters>
             <asp:ControlParameter ControlID="SpecialEventList" Name="eventcode" PropertyName="SelectedValue" Type="String" />
