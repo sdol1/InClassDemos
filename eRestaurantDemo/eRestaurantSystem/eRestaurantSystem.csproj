@@ -61,7 +61,9 @@
     <Compile Include="Entities\POCOs\MenuItem.cs" />
     <Compile Include="Entities\POCOs\ReservationDetail.cs" />
     <Compile Include="Entities\POCOs\ReservationSummary.cs" />
+    <Compile Include="Entities\POCOs\SeatingSummary.cs" />
     <Compile Include="Entities\POCOs\WaiterBilling.cs" />
+    <Compile Include="Entities\POCOs\WaiterOnDuty.cs" />
     <Compile Include="Entities\Reservation.cs" />
     <Compile Include="Entities\SpecialEvent.cs" />
     <Compile Include="Entities\Table.cs" />

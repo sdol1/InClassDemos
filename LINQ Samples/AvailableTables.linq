@@ -75,4 +75,25 @@ var step3 = from data in step2.ToList()
                 // single object whose properties I can get in step 4 using the dot (.) operator
                 CommonBilling = data.CommonBilling.FirstOrDefault()
             };
-step3.Dump();
+//step3.Dump();
+
+// Step 4 - Build our intended seating summary info
+var step4 = from data in step3
+            select new // SeatingSummary() // the DTO class to use in my BLL
+            {
+                Table = data.Table,
+                Seating = data.Seating,
+                Taken = data.Taken,
+                // use a ternary expression to conditionally get the bill id (if it exists)
+                BillID = data.Taken ?               // if(data.Taken)
+                         data.CommonBilling.BillID  // value to use if true
+                       : (int?) null,               // value to use if false
+                BillTotal = data.Taken ? 
+                            data.CommonBilling.BillTotal : (decimal?) null,
+                Waiter = data.Taken ? data.CommonBilling.Waiter : (string) null,
+                ReservationName = data.Taken ?
+                                  (data.CommonBilling.Reservation != null ?
+                                   data.CommonBilling.Reservation.CustomerName : (string) null)
+                                : (string) null
+            };
+step4.Dump();
