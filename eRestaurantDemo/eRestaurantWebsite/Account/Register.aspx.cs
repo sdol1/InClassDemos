@@ -4,6 +4,11 @@ using System.Linq;
 using System.Web.UI;
 using eRestaurantWebsite;
 
+#region
+using eRestaurantSystem.BLL.Security;
+using eRestaurantSystem.Entities.Security;
+#endregion
+
 public partial class Account_Register : Page
 {
     protected void CreateUser_Click(object sender, EventArgs e)

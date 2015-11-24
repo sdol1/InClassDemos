@@ -495,6 +495,73 @@ namespace eRestaurantSystem.BLL
                 return result.ToList();
             }
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select,false)]
+        public List<SeatingSummary> AvailableSeatingByDateTime(DateTime date, TimeSpan time)
+        {
+            // This query is not going directly to the entities
+            // this query is using the List<> from another method as its data source
+            var results = from seats in SeatingByDateTime(date, time)
+                          where !seats.Taken
+                          select seats;
+
+            return results.ToList();
+        }
+
+        // the command from the code behind is NOT using an ODS
+        // therefore it does NOT need [DataObjectMethod]
+
+        public void SeatCustomer(DateTime when, byte tablenumber, int numberinparty, int waiterid)
+        {
+            // business logic checking should be done before any database processing
+            // rule 1: table must be available 
+            // rule 2: table size must be greater than or = to numberinparty
+
+            //get the available seats
+            var availableseats = AvailableSeatingByDateTime(when.Date, when.TimeOfDay);
+
+            //start the transaction
+            using (eRestaurantContext context = new eRestaurantContext())
+            {
+                // create a list<> to hold error messages
+                List<string> errors = new List<string>();
+
+                if(!availableseats.Exists(foreachseat => foreachseat.Table == tablenumber))
+                {
+                    // table is not available
+                    errors.Add("Table is currently not available");
+                }
+                if(!availableseats.Exists(foreachseat => foreachseat.Table == tablenumber
+                                            && foreachseat.Seating >= numberinparty))
+                {
+                    errors.Add("Insufficient seating capacity for number of customer");
+                }
+                
+                // check of validation
+                if(errors.Count > 0)
+                {
+                    //there is a business rule exception
+                    throw new BusinessRuleException("Unable to seat customer", errors);
+                }
+
+                // we can assume that the data is valid at this point
+                // in our system as soon as a customer is seated a Bill is started
+                Bill seatcustomer = new Bill();
+
+                seatcustomer.BillDate = when;
+                seatcustomer.NumberInParty = numberinparty;
+                seatcustomer.WaiterID = waiterid;
+                seatcustomer.TableID = tablenumber;
+                seatcustomer.PaidStatus = false;
+
+                //make the request to entityframework to add a record to the database
+                context.Bills.Add(seatcustomer);
+
+                //commit 
+                context.SaveChanges();
+
+            } // end of transaction
+        }
         #endregion
 
     }//oef class

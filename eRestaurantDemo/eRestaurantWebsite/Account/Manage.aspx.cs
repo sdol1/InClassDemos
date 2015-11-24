@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using eRestaurantWebsite;
 
+#region
+using eRestaurantSystem.BLL.Security;
+using eRestaurantSystem.Entities.Security;
+#endregion
+
 public partial class Account_Manage : System.Web.UI.Page
 {
     protected string SuccessMessage

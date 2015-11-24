@@ -1,43 +1,24 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeFile="FrontDesk.aspx.cs" Inherits="UXPages_FrontDesk" %>
 
+<%@ Register Src="~/UserControls/MessageUserControl.ascx" TagPrefix="uc1" TagName="MessageUserControl" %>
+<%@ Register Src="~/UserControls/DateTimeMocker.ascx" TagPrefix="uc1" TagName="DateTimeMocker" %>
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" Runat="Server">
     <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
-    <div class="well">
-        <div class="pull-right col-md-5">
-            <h4>
-                <small>Last Billed Date/Time:</small>
-                <asp:Repeater ID="AdHocBillDateRepeater" runat="server" DataSourceID="AdHocBillDateDataSource" ItemType="System.DateTime">
-                    <itemtemplate><b class="label label-primary"><%# Item.ToShortDateString() %></b> &ndash; <b class="label label-info"><%# Item.ToShortTimeString() %></b></itemtemplate>
-                </asp:Repeater>
-            </h4>
-            <asp:ObjectDataSource runat="server" ID="AdHocBillDateDataSource" OldValuesParameterFormatString="original_{0}" SelectMethod="GetLastBillDateTime" TypeName="eRestaurantSystem.BLL.AdminController"></asp:ObjectDataSource>
-        </div>
-        <h4>Mock Date/Time</h4>
-        <asp:LinkButton ID="MockDateTime" runat="server" CssClass="btn btn-primary">Post-back new date/time:</asp:LinkButton>
-        <asp:LinkButton ID="MockLastBillingDateTime" runat="server" CssClass="btn btn-default" OnClick="MockLastBillingDateTime_Click">Set to Last-Billed date/time:</asp:LinkButton>
-        &nbsp;
-        <asp:TextBox id="SearchDate" runat="server" TextMode="Date" Text="2014-10-16"></asp:TextBox>
-        <asp:TextBox id="SearchTime" runat="server" TextMode="Time" Text="13:00" CssClass="clockpicker"></asp:TextBox>
-        <!-- Insert a fancy clock-picker for a little "bling" -->
-        <script src="../Scripts/clockpicker.js"></script>
-        <script type="text/javascript">
-        $('.clockpicker').clockpicker({ donetext: 'Accept' });
-        </script>
-        <link itemprop="url" href="../Content/standalone.css" rel="stylesheet">
-        <link itemprop="url" href="../Content/clockpicker.css" rel="stylesheet">
-        &nbsp;&nbsp;
-        <details style="display:inline-block; vertical-align: top;">
-            <summary class="badge">About ClockPicker &hellip;</summary>
-            <h4>Fancy Bootstrap <a href="http://weareoutman.github.io/clockpicker/">ClockPicker</a></h4>
-            <p>The time uses the ClockPicker Bootstrap extension</p>
-        </details>
-    </div>
+    
+    <uc1:DateTimeMocker runat="server" ID="Mocker" />
 
     <!-- this is the presentation markup code for the seating summary display -->
+    <uc1:MessageUserControl runat="server" ID="MessageUserControl" />
+
     <div class="col-md-7">
         <details open>
             <summary>Tables</summary>
-            <p class="well">This GridView uses a &lt;asp:TemplateField …&gt; for the table number and the controls to handle walk-in seating. Additionally, the walk-in seating form is in a panel that only shows if the seat is <em>not</em> taken. Handling of the action to <b>seat customers</b> is done in the code-behind, on the GridView's <code>OnSelectedIndexChanging</code> event.</p>
+            <p class="well">This GridView uses a &lt;asp:TemplateField …&gt; for the table number and the controls to handle walk-in seating. Additionally, 
+                the walk-in seating form is in a panel that only shows if the seat is <em>not</em> taken. Handling of the action to 
+                <b>seat customers</b> is done in the code-behind, on the GridView's <code>OnSelectedIndexChanging</code> event.</p>
             <style type="text/css">
                 .inline-div {
                     display: inline;
@@ -45,7 +26,7 @@
             </style>
             <asp:GridView ID="SeatingGridView" runat="server" AutoGenerateColumns="False"
                     CssClass="table table-hover table-striped table-condensed"
-                    DataSourceID="SeatingObjectDataSource" ItemType="eRestaurantSystem.Entities.POCOs.SeatingSummary">
+                    DataSourceID="SeatingObjectDataSource" ItemType="eRestaurantSystem.Entities.POCOs.SeatingSummary" OnSelectedIndexChanging="SeatingGridView_SelectedIndexChanging">
                 <Columns>
                     <asp:CheckBoxField DataField="Taken" HeaderText="Taken" SortExpression="Taken" ItemStyle-HorizontalAlign="Center"></asp:CheckBoxField>
                     <asp:TemplateField HeaderText="Table" SortExpression="Table" ItemStyle-HorizontalAlign="Center">
@@ -78,7 +59,15 @@
                             </asp:Panel>
                             <asp:Panel ID="OccupiedTablePanel" runat="server"
                                     Visible='<%# Item.Taken  %>'>
-                                <%# Item.Waiter %>
+
+                                <asp:HyperLink ID="ServingTablesLink" runat="server"
+                                    NavigateUrl='<%# string.Format("~/UXPages/ServingTables.aspx?waiter={0}&bill={1}&md={2}&mt={3}&mds={4}&mts={5}",
+                                                            Item.Waiter, Item.BillID, Mocker.MockDate.Ticks,
+                                                            Mocker.MockTime.Ticks, Mocker.MockDate.ToShortDateString(),
+                                                            Mocker.MockTime.ToString()) %>'>
+                                    <%# Item.Waiter %>
+                                </asp:HyperLink>
+                                
                                 <asp:Label ID="ReservationNameLabel" runat="server" 
                                         Text='<%# "&mdash;" + Item.ReservationName %>'
                                         Visible='<%# !string.IsNullOrEmpty(Item.ReservationName) %>' />
@@ -97,8 +86,8 @@
         SelectMethod="SeatingByDateTime" 
         TypeName="eRestaurantSystem.BLL.AdminController">
         <SelectParameters>
-            <asp:ControlParameter ControlID="SearchDate" PropertyName="Text" Name="date" Type="DateTime"></asp:ControlParameter>
-            <asp:ControlParameter ControlID="SearchTime" PropertyName="Text" DbType="Time" Name="time"></asp:ControlParameter>
+            <asp:ControlParameter ControlID="Mocker" PropertyName="MockDate" Name="date" Type="DateTime"></asp:ControlParameter>
+            <asp:ControlParameter ControlID="Mocker" PropertyName="MockTime" DbType="Time" Name="time"></asp:ControlParameter>
         </SelectParameters>
     </asp:ObjectDataSource>
 
@@ -150,7 +139,7 @@
                 SelectMethod="ReservationsByTime" 
                 TypeName="eRestaurantSystem.BLL.AdminController">
                 <SelectParameters>
-                    <asp:ControlParameter ControlID="SearchDate" PropertyName="Text" Name="date" Type="DateTime"></asp:ControlParameter>
+                    <asp:ControlParameter ControlID="Mocker" PropertyName="MockDate" Name="date" Type="DateTime"></asp:ControlParameter>
                 </SelectParameters>
             </asp:ObjectDataSource>
         </details>
